@@ -4,3 +4,4 @@ Gemfile.lock
 pkg/*
 examples/Gemfile
 examples/Gemfile.lock
+coverage/

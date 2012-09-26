@@ -18,11 +18,12 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  s.add_dependency "scamp", "2.0.0.pre"
-  s.add_dependency "eventmachine", '1.0.0.beta.4'
-  s.add_dependency "tinder", "~> 1.8.0"
+  s.add_dependency "em-campfire"
+  s.add_dependency "scamp"
+  s.add_dependency "eventmachine", '~> 1.0'
 
   s.add_development_dependency "rspec"
+  s.add_development_dependency "mocha"
+  s.add_development_dependency "simplecov"
+  s.add_development_dependency "rake"
 end

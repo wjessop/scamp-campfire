@@ -9,25 +9,19 @@ class Scamp
       end
 
       def say msg
-        message.room.speak msg
+        adapter.say(message.room_id, msg)
       end
 
       def reply msg
-        message.room.speak "#{message.user.name}: #{msg}"
+        adapter.say(message.room_id, "#{message.user_id}: #{msg}")
       end
 
       def paste text
-        message.room.paste text
+        adapter.paste(message.room_id, text)
       end
 
       def play sound
-        message.room.play sound.to_s
-      end
-
-      %w(crickets drama greatjob live nyan pushit rimshot secret tada tmyk trombone vuvuzela yeah).each do |sound|
-        define_method sound do
-          play sound
-        end
+        adapter.play(message.room_id, sound.to_s)
       end
     end
   end

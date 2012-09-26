@@ -1,7 +1,11 @@
 require 'spec_helper'
 
 describe Scamp::Campfire::Message do
-  let(:adapter) { Scamp::Campfire::Adapter.new stub }
+  before :each do
+    Scamp::Campfire::Adapter.any_instance.stubs(:pre_populate_user_cache_from_room_data)
+  end
+    
+  let(:adapter) { Scamp::Campfire::Adapter.new(stub, {:api_key => "foo", :subdomain => "foo"}) }
   let(:room) { stub(:id => 1234, :name => "Room") }
   let(:user) { stub(:id => 1234, :name => "User") }
   let(:body) { "Hello" }
@@ -78,12 +82,12 @@ describe Scamp::Campfire::Message do
   end
 
   describe ".valid?" do
-    describe "ignore messages from self" do
+    describe "ignoring messages from self" do
       let(:adapter) { Scamp::Campfire::Adapter.new stub, :ignore_self => true }
 
-      context "message from self" do
+      context "when message is from self" do
         before do
-          adapter.stub(:user).and_return(stub(:id => 1234, :name => "User"))
+          adapter.stubs(:user).returns(stub(:id => 1234, :name => "User"))
         end
 
         it "is not valid" do
@@ -93,7 +97,7 @@ describe Scamp::Campfire::Message do
 
       context "message from another user" do
         before do
-          adapter.stub(:user).and_return(stub(:id => 5678, :name => "Another User"))
+          adapter.stubs(:user).returns(stub(:id => 5678, :name => "Another User"))
         end
 
         it "is valid" do

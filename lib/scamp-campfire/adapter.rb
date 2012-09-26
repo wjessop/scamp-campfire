@@ -1,19 +1,39 @@
+require 'em-campfire'
+require 'scamp/adapter'
+
 class Scamp
   module Campfire
     class Adapter < Scamp::Adapter
+      include Scamp::Campfire::Users
+
       def connect!
-        rooms.each do |room|
-          room.listen do |message|
-            msg = Scamp::Campfire::Message.new self, :body => message[:body],
-                                                     :room => room,
-                                                     :user => message[:user],
-                                                     :type => message[:type]
+        connection.on_message do |message|
+          msg = Scamp::Campfire::Message.new self, :body => message[:body],
+                                                   :room_id => message[:room_id],
+                                                   :user_id => message[:user_id],
+                                                   :type => message[:type]
 
-            channel = Scamp::Campfire::Channel.new self, msg
+          channel = Scamp::Campfire::Channel.new self, msg
+          push [channel, msg]
+        end
 
-            push [channel, msg]
+        @opts[:rooms].each do |room|
+          connection.join(room)  do |room_id|
+            pre_populate_user_cache_from_room_data(room_id)
           end
         end
+      end
+
+      def say(message, room_id)
+        connection.say(room_id, message)
+      end
+
+      def paste(message, room_id)
+        connection.paste(room_id, message)
+      end
+
+      def play(sound, room_id)
+        connection.play(room_id, sound)
       end
 
       def required_prefix
@@ -29,19 +49,18 @@ class Scamp
       end
 
       private
-        def rooms
-          @opts[:rooms].map do |room|
-            if room.is_a? String
-              connection.find_room_by_name room
-            else
-              connection.find_room_by_id room
-            end
+
+      def pre_populate_user_cache_from_room_data(room_id)
+        connection.room_data_from_room_id(room_id) do |room_data|
+          room_data['users'].each do |user_data|
+            cache_data_for_user(user_data['id'], user_data)
           end
         end
+      end
 
-        def connection
-          @connection ||= Tinder::Campfire.new @opts[:subdomain], :token => @opts[:api_key]
-        end
+      def connection
+        @connection ||= EM::Campfire.new(:subdomain => @opts[:subdomain], :api_key => @opts[:api_key], :verbose => true)
+      end
     end
   end
 end
