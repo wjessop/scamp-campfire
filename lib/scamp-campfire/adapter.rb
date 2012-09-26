@@ -8,13 +8,15 @@ class Scamp
 
       def connect!
         connection.on_message do |message|
-          msg = Scamp::Campfire::Message.new self, :body => message[:body],
-                                                   :room_id => message[:room_id],
-                                                   :user_id => message[:user_id],
-                                                   :type => message[:type]
+          if matches_required_format?(message[:body])
+            msg = Scamp::Campfire::Message.new self, :body => strip_prefix(message[:body]),
+                                                     :room_id => message[:room_id],
+                                                     :user_id => message[:user_id],
+                                                     :type => message[:type]
 
-          channel = Scamp::Campfire::Channel.new self, msg
-          push [channel, msg]
+            channel = Scamp::Campfire::Channel.new self, msg
+            push [channel, msg]
+          end
         end
 
         @opts[:rooms].each do |room|
