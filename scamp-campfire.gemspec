@@ -5,8 +5,8 @@ require "scamp-campfire/version"
 Gem::Specification.new do |s|
   s.name        = "scamp-campfire"
   s.version     = Scamp::Campfire::VERSION
-  s.authors     = ["Adam Holt"]
-  s.email       = ["me@adamholt.co.uk"]
+  s.authors     = ["Adam Holt", "Will Jessop"]
+  s.email       = ["me@adamholt.co.uk", "will@willj.net"]
   s.homepage    = ""
   s.summary     = %q{TODO: Write a gem summary}
   s.description = %q{TODO: Write a gem description}
