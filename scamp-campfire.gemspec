@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Adam Holt", "Will Jessop"]
   s.email       = ["me@adamholt.co.uk", "will@willj.net"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{A Campfire adapter for Scamp}
+  s.description = %q{scamp-campfire is an adapter for Scamp that uses the em-campfire lib to provide Campfire support}
 
   s.rubyforge_project = "scamp-campfire"
 
