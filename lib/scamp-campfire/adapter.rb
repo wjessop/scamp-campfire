@@ -22,6 +22,7 @@ class Scamp
         @opts[:rooms].each do |room|
           connection.join(room) do |room_id|
             pre_populate_user_cache_from_room_data(room_id)
+            connection.stream(room_id)
           end
         end
       end
