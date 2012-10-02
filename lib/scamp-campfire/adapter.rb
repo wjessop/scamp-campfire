@@ -47,10 +47,6 @@ class Scamp
         @opts[:ignore_self] || false
       end
 
-      def user
-        connection.me
-      end
-
       private
 
       def pre_populate_user_cache_from_room_data(room_id)
@@ -62,7 +58,12 @@ class Scamp
       end
 
       def connection
-        @connection ||= EM::Campfire.new(:subdomain => @opts[:subdomain], :api_key => @opts[:api_key], :verbose => true)
+        @connection ||= EM::Campfire.new(
+          :subdomain => @opts[:subdomain],
+          :api_key => @opts[:api_key], 
+          :verbose => @opts[:verbose],
+          :ignore_self => @opts[:ignore_self]
+        )
       end
     end
   end
