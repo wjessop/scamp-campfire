@@ -5,3 +5,5 @@ pkg/*
 examples/Gemfile
 examples/Gemfile.lock
 coverage/
+.DS_Store
+.rvmrc
