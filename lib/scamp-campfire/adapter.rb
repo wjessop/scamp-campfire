@@ -62,7 +62,8 @@ class Scamp
           :subdomain => @opts[:subdomain],
           :api_key => @opts[:api_key], 
           :verbose => @opts[:verbose],
-          :ignore_self => @opts[:ignore_self]
+          :ignore_self => @opts[:ignore_self],
+          :logger => @opts[:logger]
         )
       end
     end
