@@ -9,6 +9,7 @@ class Scamp
       end
 
       def matches? trigger
+        adapter.bot.logger.debug "Matching message body #{body} against trigger #{trigger}"
         if adapter.required_prefix
           if satisfies_required_prefix?
             msg = body.split(adapter.required_prefix, 2)[1]
