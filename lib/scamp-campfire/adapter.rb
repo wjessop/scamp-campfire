@@ -63,7 +63,8 @@ class Scamp
           :api_key => @opts[:api_key], 
           :verbose => @opts[:verbose],
           :ignore_self => @opts[:ignore_self],
-          :logger => @opts[:logger]
+          :logger => @opts[:logger],
+          :user_agent => @opts[:user_agent]
         )
       end
     end
