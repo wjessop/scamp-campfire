@@ -47,6 +47,10 @@ class Scamp
         @opts[:ignore_self] || false
       end
 
+      def user_agent
+        @opts[:user_agent] || "scamp-campfire"
+      end
+
       private
 
       def pre_populate_user_cache_from_room_data(room_id)
@@ -63,7 +67,8 @@ class Scamp
           :api_key => @opts[:api_key], 
           :verbose => @opts[:verbose],
           :ignore_self => @opts[:ignore_self],
-          :logger => @opts[:logger]
+          :logger => @opts[:logger],
+          :user_agent => user_agent
         )
       end
     end
